@@ -26,7 +26,7 @@ export default function TestPage() {
           
         <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black gap-4">
             <Button onClick={testPublique}>Test Publique</Button>
-            <Button onClick={testPrivate}>Test Private</Button>
+            <Button onClick={testPrivate}>Test Privé</Button>
         </div> 
     );
 }

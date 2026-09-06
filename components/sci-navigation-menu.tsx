@@ -20,7 +20,7 @@ export function SCINavigationMenu() {
             <NavigationMenuList className="flex-wrap">
                 <NavigationMenuItem>
                     <NavigationMenuLink asChild>
-                        <Link href="/">Home</Link>
+                        <Link href="/">Accueil</Link>
                     </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
@@ -32,12 +32,12 @@ export function SCINavigationMenu() {
                     <>
                         <NavigationMenuItem>
                             <NavigationMenuLink asChild>
-                                <Link href="/login">Login</Link>
+                                <Link href="/login">Se connecter</Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
                             <NavigationMenuLink asChild>
-                                <Link href="/register">Register</Link>
+                                <Link href="/register">S'inscrire</Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
                     </>
@@ -50,10 +50,10 @@ export function SCINavigationMenu() {
                             </NavigationMenuLink>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
-                            <span className="px-4 py-2">Welcome, {username}</span>
+                            <span className="px-4 py-2">Bienvenue, {username}</span>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
-                            <Button onClick={handleLogout} variant="outline">Logout</Button>
+                            <Button onClick={handleLogout} variant="outline">Se déconnecter</Button>
                         </NavigationMenuItem>
                     </>
                 )}

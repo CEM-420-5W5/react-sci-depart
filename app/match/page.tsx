@@ -14,12 +14,12 @@ export default function MatchPage() {
   const {   isConnected, 
             waitForMatch, cancelJoinMatch, isJoiningMatch,
             endTurn, surrender,
-            simulateConnection } = useFakeSignalR();
+            connect } = useFakeSignalR();
   const {   myPlayerData, adversaryPlayerData, isCurrentPlayerTurn } = useMatch();
   
   useEffect(() => {
     if (!isConnected) {
-      simulateConnection();
+      connect();
     }
   }, [isConnected]);
 

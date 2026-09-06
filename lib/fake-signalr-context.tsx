@@ -13,7 +13,7 @@ interface FakeSignalRContextType {
   cancelJoinMatch: () => Promise<void>;
   endTurn: () => Promise<void>;
   surrender: () => Promise<void>;
-  simulateConnection: () => void;
+  connect: () => void;
 }
 
 const FakeSignalRContext = createContext<FakeSignalRContextType | undefined>(undefined);
@@ -70,7 +70,7 @@ export function SignalRProvider({ children }: { children: ReactNode }) {
     fakeWaitForMatch();
   }
 
-  const fakeWaitForMatch = async (){
+  const fakeWaitForMatch = async () => {
     matchTimeoutRef.current = setTimeout(() => {
       // Vérifier que le timeout n'a pas été annulé
       if (matchTimeoutRef.current !== null) {
@@ -89,7 +89,7 @@ export function SignalRProvider({ children }: { children: ReactNode }) {
     fakeCancelJoinMatch();
   }
 
-  const fakeCancelJoinMatch = async (){
+  const fakeCancelJoinMatch = async () => {
     // Annuler le timeout en cours si actif
     if (matchTimeoutRef.current !== null) {
       clearTimeout(matchTimeoutRef.current);
