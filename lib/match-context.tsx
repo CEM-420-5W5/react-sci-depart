@@ -92,12 +92,14 @@ export function MatchProvider({ children }: { children: ReactNode }) {
     console.log("ApplyingEvent: " + event.eventType);
     switch(event.eventType){
       case "StartMatch": {
+        // On veut attendre un peu pour que le joueur puisse voir l'animation de début de match
         await wait(1000);
         break;
       }
 
       case "PlayerEndTurn": {
-        setIsCurrentPlayerTurn(prevData => !prevData);
+        // Cette technique permet d'obtenir la valeur actuelle de isCurrentPlayerTurn et de l'inverser
+        setIsCurrentPlayerTurn((prevData: boolean) => !prevData);
         break;
       }
 
@@ -111,7 +113,7 @@ export function MatchProvider({ children }: { children: ReactNode }) {
 
       case "EndMatch": {
         // TODO: Afficher un popup de fin de match avec le résultat qui indique si le joueur a gagné ou perdu
-        // Pour l'instant on va simplement arrêter le match
+        // Pour l'instant on va simplement arrêter le match, mais il faudrait attendre que le joueur clique sur un bouton pour fermer le popup
         clearMatch();
         break;
       }

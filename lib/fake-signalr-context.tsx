@@ -21,6 +21,7 @@ const FakeSignalRContext = createContext<FakeSignalRContextType | undefined>(und
 export function SignalRProvider({ children }: { children: ReactNode }) {
 
   const {  myPlayerData, adversaryPlayerData, matchId, setMatchData, applyEvent } = useMatch();
+  // TODO: La vrai implémentation ne devrait utiliser AUCUNE de ces méthodes!
   const { createFakeMatchData, createFakeStartMatchEvent, createFakePlayerEndTurnEvent, createFakeEndMatchEvent } = useFakeMatch();
 
   const [isConnected, setIsConnected] = useState<boolean>(false);
@@ -33,6 +34,7 @@ export function SignalRProvider({ children }: { children: ReactNode }) {
   const matchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Mettre à jour les refs chaque fois que les données changent
+  /* Il faut garder ce code Début*/
   useEffect(() => {
     myPlayerDataRef.current = myPlayerData;
   }, [myPlayerData]);
@@ -40,6 +42,7 @@ export function SignalRProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     adversaryPlayerDataRef.current = adversaryPlayerData;
   }, [adversaryPlayerData]);
+  /* Fin */
 
   // Cleanup: annuler le timeout si le composant se démonte
   useEffect(() => {
@@ -50,7 +53,12 @@ export function SignalRProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const simulateConnection = () => {
+  const connect = () => {
+    // TODO: Dans la vraie implémentation, il faut se connecter à votre Hub
+    fakeConnect();
+  }
+
+  const fakeConnect = () => {
     setTimeout(() => {
       setIsConnected(true);
     }, 2000);
@@ -58,8 +66,11 @@ export function SignalRProvider({ children }: { children: ReactNode }) {
 
   const waitForMatch = async (matchId: number | null) => {    
     setIsJoiningMatch(true);
-    
-    // Créer un timeout et le stocker dans la ref
+
+    fakeWaitForMatch();
+  }
+
+  const fakeWaitForMatch = async (){
     matchTimeoutRef.current = setTimeout(() => {
       // Vérifier que le timeout n'a pas été annulé
       if (matchTimeoutRef.current !== null) {
@@ -75,6 +86,10 @@ export function SignalRProvider({ children }: { children: ReactNode }) {
   }
 
   const cancelJoinMatch = async () => {
+    fakeCancelJoinMatch();
+  }
+
+  const fakeCancelJoinMatch = async (){
     // Annuler le timeout en cours si actif
     if (matchTimeoutRef.current !== null) {
       clearTimeout(matchTimeoutRef.current);
@@ -84,6 +99,10 @@ export function SignalRProvider({ children }: { children: ReactNode }) {
   }
 
   const endTurn = async () => {
+    fakeEndTurn();
+  }
+
+  const fakeEndTurn = async () => {
     let startMatchEvent = createFakePlayerEndTurnEvent(myPlayerDataRef.current!, adversaryPlayerDataRef.current!);
     applyEvent(startMatchEvent);
 
@@ -95,12 +114,16 @@ export function SignalRProvider({ children }: { children: ReactNode }) {
   }
 
   const surrender = async () => {
+    fakeSurrender();
+  }
+
+  const fakeSurrender = async () => {
     let endMatchEvent = createFakeEndMatchEvent(adversaryPlayerDataRef.current!);
     applyEvent(endMatchEvent);
   }
 
   return (
-    <FakeSignalRContext.Provider value={{ isConnected, waitForMatch, endTurn, cancelJoinMatch, surrender, isJoiningMatch, simulateConnection }}>
+    <FakeSignalRContext.Provider value={{ isConnected, waitForMatch, endTurn, cancelJoinMatch, surrender, isJoiningMatch, connect }}>
       {children}
     </FakeSignalRContext.Provider>
   );
