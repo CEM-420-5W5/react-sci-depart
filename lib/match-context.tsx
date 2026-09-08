@@ -19,7 +19,9 @@ const MatchContext = createContext<MatchContextType | undefined>(undefined);
 
 export function MatchProvider({ children }: { children: ReactNode }) {
 
-  const {  playerId : myPlayerId } = useAuth();
+  // TODO: Il faut utiliser le playerId du joueur connecté pour savoir si c'est notre tour ou pas, et pour savoir si on est le joueur A ou B
+  // On utilise 2 pour l'instant pour les tests, mais il faut le remplacer par le playerId du joueur connecté
+  const myPlayerId = 2;
 
   const [myPlayerData, setMyPlayerData] = useState<PlayerData | null>(null);
   const [matchId, setMatchId] = useState<number | null>(null);
